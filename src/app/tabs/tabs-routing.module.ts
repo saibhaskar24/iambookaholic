@@ -8,47 +8,58 @@ const routes: Routes = [
     component: TabsPage,
     children: [
       {
-        path: 'tab1',
+        path: 'explore',
         children: [
           {
             path: '',
             loadChildren: () =>
-              import('../tab1/tab1.module').then(m => m.Tab1PageModule)
+              import('../explore/explore.module').then(m => m.ExplorePageModule)
           }
         ]
       },
       {
-        path: 'tab2',
+        path: 'post',
         children: [
           {
             path: '',
             loadChildren: () =>
-              import('../tab2/tab2.module').then(m => m.Tab2PageModule)
+              import('../post/post.module').then(m => m.PostPageModule)
           }
         ]
       },
       {
-        path: 'tab3',
+        path: 'chat',
         children: [
           {
             path: '',
             loadChildren: () =>
-              import('../tab3/tab3.module').then(m => m.Tab3PageModule)
+              import('../chat/chat.module').then(m => m.ChatPageModule)
           }
         ]
       },
       {
-        path: '',
-        redirectTo: '/tabs/tab1',
-        pathMatch: 'full'
-      }
+        path: 'mybooks',
+        children: [
+          {
+            path: '',
+            loadChildren: () =>
+              import('../mybooks/mybooks.module').then(m => m.MybooksPageModule)
+          }
+        ]
+      },
+      {
+        path: 'account',
+        children: [
+          {
+            path: '',
+            loadChildren: () =>
+              import('../account/account.module').then(m => m.AccountPageModule)
+          }
+        ]
+      },
+      
     ]
   },
-  {
-    path: '',
-    redirectTo: '/tabs/tab1',
-    pathMatch: 'full'
-  }
 ];
 
 @NgModule({
