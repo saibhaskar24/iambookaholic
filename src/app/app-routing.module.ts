@@ -10,7 +10,7 @@ const routes: Routes = [
   { path: 'mybooks', loadChildren: './mybooks/mybooks.module#MybooksPageModule' },
   { path: 'account', loadChildren: './account/account.module#AccountPageModule' },
   { path: 'explore', loadChildren: './explore/explore.module#ExplorePageModule' },
-  { path: 'post', loadChildren: './post/post.module#PostPageModule' }
+  { path: 'post', loadChildren: './post/post.module#PostPageModule' },
 ];
 @NgModule({
   imports: [
