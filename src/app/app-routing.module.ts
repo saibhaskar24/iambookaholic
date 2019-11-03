@@ -11,6 +11,7 @@ const routes: Routes = [
   { path: 'account', loadChildren: './account/account.module#AccountPageModule' },
   { path: 'explore', loadChildren: './explore/explore.module#ExplorePageModule' },
   { path: 'post', loadChildren: './post/post.module#PostPageModule' },
+  
 ];
 @NgModule({
   imports: [
