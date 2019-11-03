@@ -57,9 +57,18 @@ const routes: Routes = [
           }
         ]
       },
-      
+      {
+        path: '',
+        redirectTo: '/tabs/explore',
+        pathMatch: 'full'
+      }
     ]
   },
+  {
+    path: '',
+    redirectTo: '/tabs/explore',
+    pathMatch: 'full'
+  }
 ];
 
 @NgModule({
