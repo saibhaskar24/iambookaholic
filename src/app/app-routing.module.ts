@@ -13,6 +13,8 @@ const routes: Routes = [
   { path: 'post', loadChildren: './post/post.module#PostPageModule' },
   { path: 'userchat', loadChildren: './userchat/userchat.module#UserchatPageModule' },
   { path: 'login', loadChildren: './login/login.module#LoginPageModule' },
+  { path: 'login', loadChildren: './login/login.module#LoginPageModule' },
+  { path: 'signup', loadChildren: './signup/signup.module#SignupPageModule' },
   
 ];
 @NgModule({
