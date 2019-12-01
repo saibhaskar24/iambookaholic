@@ -8,8 +8,15 @@ import { Component, OnInit } from '@angular/core';
 export class LoginPage implements OnInit {
 
   constructor() { }
+  email="";
+  pass="";
 
   ngOnInit() {
+  }
+  sub() {
+    if(this.email == "" || this.pass == "") {
+      console.log("Enter full details");
+    }
   }
 
 }
