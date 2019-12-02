@@ -10,10 +10,11 @@ export class SignupPage implements OnInit {
   constructor() { }
   email="";
   pass="";
+  uname = "";
   ngOnInit() {
   }
   sub() {
-    if(this.email == "" || this.pass == "") {
+    if(this.email == "" || this.pass == "" || this.uname=="") {
       console.log("Enter full details");
     }
     else {
