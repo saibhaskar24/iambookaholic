@@ -17,6 +17,9 @@ export class LoginPage implements OnInit {
     if(this.email == "" || this.pass == "") {
       console.log("Enter full details");
     }
+    else {
+      
+    }
   }
 
 }
