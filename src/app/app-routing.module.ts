@@ -1,20 +1,26 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
   {
-    path: '',
-    loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)
+    path: 'tabs',
+    loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule),
+    canActivate: [AuthGuard]
   },
-  { path: 'chat', loadChildren: './chat/chat.module#ChatPageModule' },
-  { path: 'mybooks', loadChildren: './mybooks/mybooks.module#MybooksPageModule' },
-  { path: 'account', loadChildren: './account/account.module#AccountPageModule' },
-  { path: 'explore', loadChildren: './explore/explore.module#ExplorePageModule' },
+  {
+    path: '',
+    loadChildren: () =>
+      import('./login/login.module').then(m => m.LoginPageModule)
+  },
+  {
+    path: 'register',
+    loadChildren: () =>
+      import('./register/register.module').then(m => m.RegisterPageModule)
+  },
   { path: 'post', loadChildren: './post/post.module#PostPageModule' },
   { path: 'userchat', loadChildren: './userchat/userchat.module#UserchatPageModule' },
-  { path: 'login', loadChildren: './login/login.module#LoginPageModule' },
-  { path: 'login', loadChildren: './login/login.module#LoginPageModule' },
-  { path: 'signup', loadChildren: './signup/signup.module#SignupPageModule' },
+  
   
 ];
 @NgModule({
