@@ -13,7 +13,8 @@ const TOKEN_KEY = 'jwt-token';
 })
 export class ExplorePage implements OnInit {
   
-  data ;
+  data =null ;
+  
   private heroesUrl = 'https://djangorestapiionic.herokuapp.com/posts';  // URL to web api
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' , 'Authorization': `Bearer ${this.auth.getToken()}`})

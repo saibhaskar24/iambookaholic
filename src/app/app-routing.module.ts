@@ -16,9 +16,10 @@ const routes: Routes = [
   {
     path: 'register',
     loadChildren: () =>
-      import('./register/register.module').then(m => m.RegisterPageModule)
+      import('./register/register.module').then(m => m.RegisterPageModule),
+      canActivate: [AuthGuard]
   },
-  { path: 'post', loadChildren: './post/post.module#PostPageModule' },
+  { path: 'post', loadChildren: './post/post.module#PostPageModule',canActivate: [AuthGuard] },
   { path: 'userchat', loadChildren: './userchat/userchat.module#UserchatPageModule' },
   
   

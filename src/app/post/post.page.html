@@ -1,7 +1,7 @@
 <ion-header translucent>
     <ion-toolbar>
       <ion-buttons slot="start">
-        <ion-back-button defaultHref="/"></ion-back-button>
+        <ion-back-button defaultHref="/tabs"></ion-back-button>
       </ion-buttons>
       <ion-title>New Post</ion-title>
     </ion-toolbar>
@@ -9,8 +9,10 @@
 
 <ion-content>
 
+    <ion-input [(ngModel)]="name" placeholder="Post Title"></ion-input>
   
     <ion-item>
-        <ion-textarea placeholder="Enter post discription"></ion-textarea>
+        <ion-textarea [(ngModel)]="content" placeholder="Enter post discription"></ion-textarea>
       </ion-item>
+      <ion-button (click)="po()" color="primary">Primary</ion-button>
 </ion-content>

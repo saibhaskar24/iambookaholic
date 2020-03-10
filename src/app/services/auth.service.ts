@@ -70,6 +70,7 @@ export class AuthService {
     return this.userDataID.getValue();
   }
   getToken() {
+    console.log(this.tok);
     return this.tok;
   }
 

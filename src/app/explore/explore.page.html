@@ -9,24 +9,26 @@
   
   
   <ion-content class="ion-padding">
-        <ion-slides pager="true" [options]="slideOpts">
-          <ion-slide *ngFor="let res of data">
-            <ion-card>
-              {{ res.content }}
-            </ion-card>
-            <h1>{{ res.name }}</h1>
-          </ion-slide>
-        </ion-slides>
+
+            <ion-slides *ngIf="data" pager="true" [options]="slideOpts">
+            
+              <ion-slide *ngFor="let res of data">
+                <ion-card>
+                  {{ res.content }}
+                </ion-card>
+                <h1>{{ res.name }}</h1>
+              </ion-slide>
+            </ion-slides>
         <ion-fab vertical="bottom" horizontal="start" slot="fixed">
           <ion-fab-button>
             <ion-icon name="arrow-dropleft"></ion-icon>
           </ion-fab-button>
         </ion-fab>
-        <ion-fab vertical="bottom" horizontal="center" slot="fixed">
-          <ion-fab-button >
-            <ion-icon name="heart"></ion-icon>
-          </ion-fab-button>
-        </ion-fab>
+            <ion-fab vertical="bottom" horizontal="center" slot="fixed">
+              <ion-fab-button >
+                <ion-icon name="heart"></ion-icon>
+              </ion-fab-button>
+            </ion-fab>
         <ion-fab vertical="bottom" horizontal="end" slot="fixed">
           <ion-fab-button>
             <ion-icon name="arrow-dropright"></ion-icon>
