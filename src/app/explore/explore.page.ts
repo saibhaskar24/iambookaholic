@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { catchError, map, tap } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+
 
 const TOKEN_KEY = 'jwt-token';
 @Component({
@@ -8,10 +12,19 @@ const TOKEN_KEY = 'jwt-token';
   styleUrls: ['./explore.page.scss'],
 })
 export class ExplorePage implements OnInit {
+  private heroesUrl = 'https://djangorestapiionic.herokuapp.com/posts';  // URL to web api
+  httpOptions = {
+    headers: new HttpHeaders({ 'Content-Type': 'application/json' , 'Authorization': `Bearer ${this.auth.getToken()}`})
+  };
 
-  constructor(private auth: AuthService) { }
+  constructor(private auth: AuthService,private http: HttpClient) { }
 
   ngOnInit() {
+    
+    this.http.get(this.heroesUrl, this.httpOptions).subscribe(
+      data => console.log(data),
+      err => console.log(err)
+    );
     console.log(this.auth.getToken());
   }
 
