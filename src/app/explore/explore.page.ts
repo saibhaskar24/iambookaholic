@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../services/auth.service';
 
+const TOKEN_KEY = 'jwt-token';
 @Component({
   selector: 'app-explore',
   templateUrl: './explore.page.html',
@@ -7,9 +9,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ExplorePage implements OnInit {
 
-  constructor() { }
+  constructor(private auth: AuthService) { }
 
   ngOnInit() {
+    console.log(this.auth.getToken());
   }
 
 }

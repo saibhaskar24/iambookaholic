@@ -15,7 +15,7 @@ export class ChatPage implements OnInit {
   }
 
   ionViewWillEnter() {
-    this.user = this.auth.getUser();
+    this.user = this.auth.getUserID();
   }
  
   logout() {

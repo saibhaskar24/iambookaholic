@@ -2,40 +2,37 @@ import { Platform } from '@ionic/angular';
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { BehaviorSubject, Observable, from, of } from 'rxjs';
-import { take, map, switchMap } from 'rxjs/operators';
+import {  map, switchMap, catchError } from 'rxjs/operators';
 import { JwtHelperService } from "@auth0/angular-jwt";
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
  
 const helper = new JwtHelperService();
 const TOKEN_KEY = 'jwt-token';
- 
+
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   public user: Observable<any>;
-  private userData = new BehaviorSubject(null);
- 
+  private userDataID = new BehaviorSubject(null);
+  private tok: string;
   constructor(private storage: Storage, private http: HttpClient, private plt: Platform, private router: Router) { 
     this.loadStoredToken(); 
     
   }
  
   loadStoredToken() {
-    let platformObs = from(this.plt.ready());
-    console.log("load T");
- 
+    let platformObs = from(this.plt.ready()); 
     this.user = platformObs.pipe(
       switchMap(() => {
-        console.log("stored T");
         return from(this.storage.get(TOKEN_KEY));
       }),
       map(token => {
         if (token) {
-          console.log("unsaved");
           let decoded = helper.decodeToken(token); 
-          this.userData.next(decoded);
+          this.userDataID.next(decoded);
+          this.tok = token;
           return true;
         } else {
           return null;
@@ -45,50 +42,40 @@ export class AuthService {
   }
  
   login(credentials: {email: string, pw: string }) {
-    let v = "no";
-    let tt;
-    // Normally make a POST request to your APi with your login credentials
-    this.http.post<any>('https://djangorestapiionic.herokuapp.com/api/token/', {
-      "username": "bhaskar",
-      "password": "Sai@24091999"
-      }).subscribe(data => {
-    console.log(data);
-    console.log(v)
-    tt = data.token;
-    
-    v = "yes";
-    console.log(v);
-    })
-    if (v == "no") {
-      return of(null);
-    }
-    
 
-    return this.http.get('https://randomuser.me/api/').pipe(
-      take(1),
+    
+   return this.http.post<any>('https://djangorestapiionic.herokuapp.com/api/token/', {
+      "username": credentials.email,
+      "password": credentials.pw
+      }).pipe(
       map(res => {
-        return `eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJPbmxpbmUgSldUIEJ1aWxkZXIiLCJpYXQiOjE1Njc2NjU3MDYsImV4cCI6MTU5OTIwMTcwNiwiYXVkIjoid3d3LmV4YW1wbGUuY29tIiwic3ViIjoiMTIzNDUiLCJmaXJzdF9uYW1lIjoiU2ltb24iLCJsYXN0X25hbWUiOiJHcmltbSIsImVtYWlsIjoic2FpbW9uQGRldmRhY3RpYy5jb20ifQ.4LZTaUxsX2oXpWN6nrSScFXeBNZVEyuPxcOkbbDVZ5U`;
+        console.log("Res : ");
+        console.log(res);
+        return res['access'];
       }),
       switchMap(token => {
-        console.log("decoder");
         let decoded = helper.decodeToken(token);
-        this.userData.next(decoded);
- 
+        this.userDataID.next(decoded);
         let storageObs = from(this.storage.set(TOKEN_KEY, token));
-        console.log("done"+TOKEN_KEY+ token);
         return storageObs;
+      }),
+      catchError((err) => {
+        return of(null);
       })
     );
   }
  
-  getUser() {
-    return this.userData.getValue();
+  getUserID() {
+    return this.userDataID.getValue();
+  }
+  getToken() {
+    return this.tok;
   }
  
   logout() {
     this.storage.remove(TOKEN_KEY).then(() => {
       this.router.navigateByUrl('/');
-      this.userData.next(null);
+      this.userDataID.next(null);
     });
   }
  
