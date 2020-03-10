@@ -12,6 +12,8 @@ const TOKEN_KEY = 'jwt-token';
   styleUrls: ['./explore.page.scss'],
 })
 export class ExplorePage implements OnInit {
+  
+  data ;
   private heroesUrl = 'https://djangorestapiionic.herokuapp.com/posts';  // URL to web api
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' , 'Authorization': `Bearer ${this.auth.getToken()}`})
@@ -20,12 +22,20 @@ export class ExplorePage implements OnInit {
   constructor(private auth: AuthService,private http: HttpClient) { }
 
   ngOnInit() {
-    
     this.http.get(this.heroesUrl, this.httpOptions).subscribe(
-      data => console.log(data),
-      err => console.log(err)
+      data => {this.data = data['results'];
+      console.log(data['results']);
+
+      },
+      err => {
+        console.log(err);
+        this.auth.newToken();
+        this.httpOptions = {
+          headers: new HttpHeaders({ 'Content-Type': 'application/json' , 'Authorization': `Bearer ${this.auth.getToken()}`})
+        };
+        this.ngOnInit();
+      }
     );
-    console.log(this.auth.getToken());
   }
 
 }

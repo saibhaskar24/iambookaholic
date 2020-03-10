@@ -8,7 +8,8 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
  
 const helper = new JwtHelperService();
-const TOKEN_KEY = 'jwt-token';
+const A_KEY = 'access-token';
+const R_KEY = 'refresh-token';
 
 @Injectable({
   providedIn: 'root'
@@ -17,16 +18,16 @@ export class AuthService {
   public user: Observable<any>;
   private userDataID = new BehaviorSubject(null);
   private tok: string;
+  private platformObs: Observable<any> = from(this.plt.ready()); 
   constructor(private storage: Storage, private http: HttpClient, private plt: Platform, private router: Router) { 
     this.loadStoredToken(); 
     
   }
  
   loadStoredToken() {
-    let platformObs = from(this.plt.ready()); 
-    this.user = platformObs.pipe(
+    this.user = this.platformObs.pipe(
       switchMap(() => {
-        return from(this.storage.get(TOKEN_KEY));
+        return from(this.storage.get(A_KEY));
       }),
       map(token => {
         if (token) {
@@ -49,14 +50,14 @@ export class AuthService {
       "password": credentials.pw
       }).pipe(
       map(res => {
-        console.log("Res : ");
-        console.log(res);
-        return res['access'];
+        return res;
       }),
       switchMap(token => {
-        let decoded = helper.decodeToken(token);
+        let decoded = helper.decodeToken(token['access']);
         this.userDataID.next(decoded);
-        let storageObs = from(this.storage.set(TOKEN_KEY, token));
+        let storageObs = from(this.storage.set(A_KEY, token['access']));
+        storageObs = from(this.storage.set(R_KEY, token['refresh']));
+        console.log(storageObs)
         return storageObs;
       }),
       catchError((err) => {
@@ -71,9 +72,24 @@ export class AuthService {
   getToken() {
     return this.tok;
   }
+
+  newToken() {
+    this.storage.get(R_KEY).then((token) => {
+      this.http.post('https://djangorestapiionic.herokuapp.com/api/token/refresh/', {
+        "refresh": token,
+        }).subscribe(
+            data => this.storage.set(A_KEY, data),
+            err => {console.log(err);
+            console.log("Error in auth servise new token")}
+          );
+        
+    });
+      
+  }
  
   logout() {
-    this.storage.remove(TOKEN_KEY).then(() => {
+    this.storage.remove(A_KEY);
+    this.storage.remove(R_KEY).then(() => {
       this.router.navigateByUrl('/');
       this.userDataID.next(null);
     });
