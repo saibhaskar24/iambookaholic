@@ -13,7 +13,11 @@
             <ion-slides *ngIf="data" pager="true" [options]="slideOpts">
             
               <ion-slide *ngFor="let res of data">
+              <h1>{{ res.user }}</h1> 
                 <ion-card>
+                <ion-card-header *ngIf="res.image">
+                  <img src="{{ res.image.url }}">
+                </ion-card-header> 
                   {{ res.content }}
                 </ion-card>
                 <h1>{{ res.name }}</h1>

@@ -12,7 +12,7 @@ export class PostPage  {
   content = "";
   name = "";
 
-  private Url = 'https://djangorestapiionic.herokuapp.com/posts/';
+  private Url = 'https://djangorestapiionic.herokuapp.com/';
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' , 'Authorization': `Bearer ${this.auth.getToken()}`})
   };
@@ -21,9 +21,11 @@ export class PostPage  {
     private router: Router,private http: HttpClient) { }
 
     po() {
-      this.http.post(this.Url,  {
+      console.log(this.content+" "+ this.name+" "+this.auth.getUserID().user_id);
+      this.http.post(this.Url+"posts/",  {
         "content": this.content,
-        "name": this.name
+        "name": this.name,
+        "user": this.Url+"users/"+this.auth.getUserID().user_id + "/" ,
         }, this.httpOptions,).subscribe(
             data => {console.log(data);
               this.router.navigateByUrl('/tabs');},
