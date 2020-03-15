@@ -18,8 +18,6 @@ export class ChatPage implements OnInit {
     this.user = this.auth.getUserID();
   }
  
-  logout() {
-    this.auth.logout();
-  }
+  
 
 }
