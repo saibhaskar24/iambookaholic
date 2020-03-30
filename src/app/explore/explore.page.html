@@ -7,10 +7,20 @@
     </ion-toolbar>
   </ion-header>
   
-  
-  <ion-content class="ion-padding">
+  <ion-content padding>
+<tinder-ui [cards]="cards" (choiceMade)="logChoice($event)"></tinder-ui>
 
-            <ion-slides *ngIf="data" pager="true" [options]="slideOpts">
+</ion-content>
+
+<ion-footer>
+
+  <ion-toolbar>
+    <ion-button expand="full" (click)="loadTinderCards()">Load Tinder Cards!</ion-button>
+  </ion-toolbar>
+
+</ion-footer>
+
+            <!-- <ion-slides *ngIf="data" pager="true" [options]="slideOpts">
             
               <ion-slide *ngFor="let res of data">
               <h1>{{ res.user }}</h1> 
@@ -23,19 +33,4 @@
                 <h1>{{ res.name }}</h1>
               </ion-slide>
             </ion-slides>
-        <ion-fab vertical="bottom" horizontal="start" slot="fixed">
-          <ion-fab-button>
-            <ion-icon name="arrow-dropleft"></ion-icon>
-          </ion-fab-button>
-        </ion-fab>
-            <ion-fab vertical="bottom" horizontal="center" slot="fixed">
-              <ion-fab-button >
-                <ion-icon name="heart"></ion-icon>
-              </ion-fab-button>
-            </ion-fab>
-        <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-          <ion-fab-button>
-            <ion-icon name="arrow-dropright"></ion-icon>
-          </ion-fab-button>
-        </ion-fab>
-  </ion-content>
+        -->
