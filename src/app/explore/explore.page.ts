@@ -25,7 +25,10 @@ export class ExplorePage implements OnInit {
 
   
   loadTinderCards() {
+
     this.cards = [
+      
+      
       {
         img: "https://placeimg.com/300/300/people",
         title: "Demo card 1",
@@ -52,27 +55,38 @@ export class ExplorePage implements OnInit {
         description: "This is a demo for Tinder like swipe cards"
       }
     ]
+
+    for(var i = 0;i<this.data.length;++i)
+      {
+        this.cards.push(
+          {
+        img: this.data[i].image,
+        title: this.data[i].name,
+        description: this.data[i].content
+        });
+      }
+    
+    
   };
   
-  
+  //name,content,image,user
 
   
 
   ngOnInit() {
-    // this.http.get(this.heroesUrl, this.httpOptions).subscribe(
-    //   data => {this.data = data['results'];
-    //   console.log(data['results']);
-
-    //   },
-    //   err => {
-    //     console.log(err);
-    //     this.auth.newToken();
-    //     this.httpOptions = {
-    //       headers: new HttpHeaders({ 'Content-Type': 'application/json' , 'Authorization': `Bearer ${this.auth.getToken()}`})
-    //     };
-    //     this.ngOnInit();
-    //   }
-    // );
+    this.http.get(this.heroesUrl, this.httpOptions).subscribe(
+      data => {this.data = data['results'];
+      console.log(data['results']);
+      },
+      err => {
+        console.log(err);
+        this.auth.newToken();
+        this.httpOptions = {
+          headers: new HttpHeaders({ 'Content-Type': 'application/json' , 'Authorization': `Bearer ${this.auth.getToken()}`})
+        };
+        this.ngOnInit();
+      }
+    );
   }
 
 }
